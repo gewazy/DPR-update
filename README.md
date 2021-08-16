@@ -1,5 +1,10 @@
 # DPR-update
 
 Skrypt wypełnia raport dzienny DPR. 
-W kolejnych wersjach dojdą kolejne funkcjonalności
+
+Tworzy pliki:
+- json dla transcribera.
+- csv do GPSa, txt do ZUPTa z punktami do domierzenia (QC, status po produkcji)
+
+## Skrypt uruchamiamy jak wszystkie czynności w bazie danych są załatwione. 
 
