@@ -137,6 +137,23 @@ re_r = "Select " \
        "[Ludziki].`Nr_auta`"
 
 
+otg = "Select " \
+      "[Ludziki].`Nr_auta`,  " \
+      "'1' as `L_B`, " \
+      "IIF (`Survey Mode (value)`=5, 'ZUPT ', IIF (`Survey Mode (value)`=6,'TACHIMETR', IIF (`Survey Mode (value)` in (3, 10, 1, 2, 13, 9),'GPS',''))) & ' ' & [OTG].`Surveyor` AS `Brygada`, " \
+      "Count (*) AS `Liczba OTG` " \
+      "From " \
+      "[OTG] Left Join [Ludziki] on [OTG].`Surveyor`=[Ludziki].`Surveyor` " \
+      "Where " \
+      "[OTG].`Station (value)` > 0 " \
+      "And datediff('d',[OTG].`Survey Time (Local)`,Now()) = 0 " \
+      "Group By " \
+      "IIF (`Survey Mode (value)`=5, 'ZUPT ', IIF (`Survey Mode (value)`=6, 'TACHIMETR', IIF (`Survey Mode (value)` in (3, 10, 1, 2, 13, 9),'GPS',''))), " \
+      "[OTG].`Surveyor`, " \
+      "[OTG].`Julian Date (Local)`, " \
+      "[Ludziki].`Nr_auta`"
+
+
 qc_r = "Select [POSTPLOT].* " \
        "From [POSTPLOT] " \
        "Where  [POSTPLOT].`Station (value)` > 0 And [POSTPLOT].`Track` Between 1175 And 1930  " \
@@ -203,6 +220,9 @@ re_s = crsr.fetchall()
 
 crsr.execute(re_r)
 re_r = crsr.fetchall()
+
+crsr.execute(otg)
+otg = crsr.fetchall()
 
 crsr.close()
 cnxn.close()
@@ -346,11 +366,23 @@ for ro in zm_s:
         target['K' + str(row)] = ro[2]
         licz_bry.append((ro[2].split())[1])
         target['L' + str(row)] = ro[3]
+sleep(0.1)
+
+row = 95
+print('\nPomiar otworów głębokich: \n')
+for ro in otg:
+    row += 1
+    print(ro)
+    target['A' + str(row)] = ro[0]
+    target['B' + str(row)] = ro[1]
+    target['C' + str(row)] = ro[2]
+    licz_bry.append((ro[2].split())[1])
+    target['D' + str(row)] = ro[3]
 sleep(0.4)
 
 print(f'\n\nPracowało {len(set(licz_bry))} brygad\n')
 for num, geodeta in enumerate(sorted(set(licz_bry))):
-    print(str(num + 1) + '.' , geodeta)
+    print(str(num + 1) + '.', geodeta)
 
 target['N132'] = len(set(licz_bry))
 target['B128'] = input('\nWprowadź komentarz:\n')
@@ -364,8 +396,14 @@ print('\nRaport DPR gotowy\n'
 # raprt dniówkowy punkt po punkcie importowany ze skryptu
 import raport_daily
 
-print('\nPrzystępuję do wykonania plików:')
-import json
+print('\nTworzę pliki json i qc_domiar')
+import json_copy
 
-print('\nPliki znajdują się w katalogu "./!_PL182PY/output"')
+print('\nTworzę pliki SP RP real')
+import SP_RP_REAL
+
+print('\nTworzę pliki SHP.')
+import szejp
+
+print('\nPliki znajdują się w katalogach: \n\t-"./!_PL182PY/output" oraz \n\t-"./!_PL182PY/shp_files"')
 input('\nEnter by zakończyć:')
