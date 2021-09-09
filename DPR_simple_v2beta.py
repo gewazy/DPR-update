@@ -14,12 +14,6 @@ print('Generowania raportu DPR.\n\tver2.0.beta')
 
 print(f"-dane z dnia: {str(date.today().strftime('%Y%m%d'))}")
 
-# łączenie z bazą
-conn_str = (r'DRIVER={Microsoft Access Driver (*.mdb, *.accdb)};' # sterownik mdb
-            r'DBQ=..\01_database\PL-182 HUSOW.mdb;')  # ścieżka do bazy danych
-
-cnxn = pyodbc.connect(conn_str)  # łączenie z bazą danych
-crsr = cnxn.cursor()
 
 # kwerendy - jak nazrazie trzeba zmieniać z palucha
 tycz_r = "Select " \
@@ -185,44 +179,30 @@ skip = "Select [POSTPLOT].* From [POSTPLOT] " \
        "And [POSTPLOT].`Track` Between 4060 And 4550 Order By [POSTPLOT].`Station (value)`"
 
 
-crsr.execute(vib)
-vib = len(crsr.fetchall())
+# łączenie z bazą
+conn_str = (r'DRIVER={Microsoft Access Driver (*.mdb, *.accdb)};' # sterownik mdb
+            r'DBQ=..\01_database\PL-182 HUSOW.mdb;')  # ścieżka do bazy danych
 
-crsr.execute(xr)
-xr = len(crsr.fetchall())
+cnxn = pyodbc.connect(conn_str)  # łączenie z bazą danych
+crsr = cnxn.cursor()
 
-crsr.execute(xt)
-xt = len(crsr.fetchall())
+# zbieranie danch do wypełnienia raportu
+vib = len(crsr.execute(vib).fetchall())
+xr = len(crsr.execute(xr).fetchall())
+xt = len(crsr.execute(xt).fetchall())
+skip = len(crsr.execute(skip).fetchall())
+qc_r = len(crsr.execute(qc_r).fetchall())
+qc_s = len(crsr.execute(qc_s).fetchall())
 
-crsr.execute(skip)
-skip = len(crsr.fetchall())
+tycz_r = crsr.execute(tycz_r).fetchall()
+tycz_s = crsr.execute(tycz_s).fetchall()
 
-crsr.execute(qc_r)
-qc_r = len(crsr.fetchall())
+zm_r = crsr.execute(zm_r).fetchall()
+zm_s = crsr.execute(zm_s).fetchall()
 
-crsr.execute(qc_s)
-qc_s = len(crsr.fetchall())
-
-crsr.execute(tycz_r)
-tycz_r = crsr.fetchall()
-
-crsr.execute(tycz_s)
-tycz_s = crsr.fetchall()
-
-crsr.execute(zm_r)
-zm_r = crsr.fetchall()
-
-crsr.execute(zm_s)
-zm_s = crsr.fetchall()
-
-crsr.execute(re_s)
-re_s = crsr.fetchall()
-
-crsr.execute(re_r)
-re_r = crsr.fetchall()
-
-crsr.execute(otg)
-otg = crsr.fetchall()
+re_s = crsr.execute(re_s).fetchall()
+re_r = crsr.execute(re_r).fetchall()
+otg = crsr.execute(otg).fetchall()
 
 crsr.close()
 cnxn.close()
@@ -280,7 +260,6 @@ target['O53'] = qc_s
 
 licz_bry = []  # lista brygadzistów do liczenia liczby brygad
 
-sleep(0.5)
 row = 13
 print('\nTyczenie punktów odbioru: \n')
 for ro in tycz_r:
@@ -378,7 +357,7 @@ for ro in otg:
     target['C' + str(row)] = ro[2]
     licz_bry.append((ro[2].split())[1])
     target['D' + str(row)] = ro[3]
-sleep(0.4)
+sleep(0.1)
 
 print(f'\n\nPracowało {len(set(licz_bry))} brygad\n')
 for num, geodeta in enumerate(sorted(set(licz_bry))):
@@ -397,7 +376,7 @@ print('\nRaport DPR gotowy\n'
 import raport_daily
 
 print('\nTworzę pliki json i qc_domiar')
-import json_copy
+import json
 
 print('\nTworzę pliki SP RP real')
 import SP_RP_REAL
