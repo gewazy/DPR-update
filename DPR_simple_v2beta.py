@@ -384,5 +384,5 @@ import SP_RP_REAL
 print('\nTworzę pliki SHP.')
 import szejp
 
-print('\nPliki znajdują się w katalogach: \n\t-"./!_PL182PY/output" oraz \n\t-"./!_PL182PY/shp_files"')
+print('\nPliki znajdują się w katalogach: \n\t-"./!_PL182PY/output" \n\t-"./!_PL182PY/shp_files"')
 input('\nEnter by zakończyć:')
