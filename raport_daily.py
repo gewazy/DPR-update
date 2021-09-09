@@ -5,9 +5,7 @@ from datetime import date
 '''Generowanie raportu z 'dniówką' '''
 
 print(f"Raport dniówkowy z dnia:"
-      f"{str(date.today().strftime('%Y%m%d'))}"
-      f"\n\nTworzę połaczenie z bazą danych\n"
-      f"\nwysyłam zapytanie o dane\n")
+      f"{str(date.today().strftime('%Y%m%d'))}")
 
 conn_str = (
     r'DRIVER={Microsoft Access Driver (*.mdb, *.accdb)};'
@@ -56,5 +54,4 @@ print(f"Zapisałem {len(std)} wierszy do pliku {str(date.today().strftime('%Y%m%
 
 wb.save(f"./output/dniowki/{str(date.today().strftime('%Y%m%d'))}.xlsx")
 
-print('\nGotowe')
-input("\nEnter by zakończyć")
+
