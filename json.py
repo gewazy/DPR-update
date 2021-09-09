@@ -2,7 +2,6 @@ import pyodbc
 
 '''Przygotowanie pliku json dla transcribera'''
 
-print("Łączę z bazą danych")
 conn_str = (
     r'DRIVER={Microsoft Access Driver (*.mdb, *.accdb)};'
     r'DBQ=..\01_database\PL-182 HUSOW.mdb;'  # ścieżka do bazy danych, do zmiany jeśli potrzeba
@@ -34,8 +33,6 @@ with open('.\\output\\line_station.json', 'w') as file:
 print('\nPlik Json gotowy')
 
 # Plik qc_domiar csv i txt
-
-print("\nŁączę z bazą danych")
 conn_str = (
     r'DRIVER={Microsoft Access Driver (*.mdb, *.accdb)};'
     r'DBQ=..\01_database\PL-182 HUSOW.mdb;'  # ścieżka do bazy danych, do zmiany jeśli potrzeba
@@ -97,7 +94,6 @@ wzn = "Select [POSTPLOT].`Station (value)`, [POSTPLOT].`Local Easting`, [POSTPLO
       "Where [POSTPLOT].`Station (value)` > 0 And [POSTPLOT].`Status` >= 0 And [POSTPLOT].`Track` Between 1175 And 1930 AND [POSTPLOT].`Station (value)` = MxInd.`Station` AND [POSTPLOT].`Indeks` = MxInd.`ilosc` Order By [POSTPLOT].`Station (value)`"
 
 # pobranie danych
-print("\nŁączę z bazą danych")
 conn_str = (
     r'DRIVER={Microsoft Access Driver (*.mdb, *.accdb)};'
     r'DBQ=..\01_database\PL-182 HUSOW.mdb;'  # ścieżka do bazy danych, do zmiany jeśli potrzeba
