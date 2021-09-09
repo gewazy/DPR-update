@@ -2,12 +2,7 @@ import pyodbc
 
 # Plik RP_REAL i SP_REAL (csv)
 
-print("\nŁączę z bazą danych")
-conn_str = (
-    r'DRIVER={Microsoft Access Driver (*.mdb, *.accdb)};'
-    r'DBQ=..\01_database\PL-182 HUSOW.mdb;'  # ścieżka do bazy danych, do zmiany jeśli potrzeba
-    )
-
+# zapytania
 postplot_s = "Select [POSTPLOT].`Station (value)`, " \
              "[POSTPLOT].`Local Easting`, " \
              "[POSTPLOT].`Local Northing`, " \
@@ -30,13 +25,18 @@ postplot_r = "Select [POSTPLOT].`Station (value)`, " \
              "Where  [POSTPLOT].`Station (value)` > 0 And [POSTPLOT].`Track` Between 1175 And 1930  And [POSTPLOT].`Status` >=0 " \
              "Order By [POSTPLOT].`Station (text)`"
 
+# Łączę z bazą danych
+conn_str = (
+    r'DRIVER={Microsoft Access Driver (*.mdb, *.accdb)};'
+    r'DBQ=..\01_database\PL-182 HUSOW.mdb;'  # ścieżka do bazy danych, do zmiany jeśli potrzeba
+    )
+
 cnxn = pyodbc.connect(conn_str)
 crsr = cnxn.cursor()
 
-crsr.execute(postplot_s)
-postplot_s = crsr.fetchall()
-crsr.execute(postplot_r)
-postplot_r = crsr.fetchall()
+#listy z danymi
+postplot_s = crsr.execute(postplot_s).fetchall()
+postplot_r = crsr.execute(postplot_r).fetchall()
 
 cnxn.commit()
 cnxn.close()
