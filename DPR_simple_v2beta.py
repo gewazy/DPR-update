@@ -8,6 +8,7 @@ from time import sleep
 #   /kwerendy w oddzielnym pliku, scieżki w oddzielnym pliku/
 # - rozpoznie ostatniego dnia w raporcie i przygotowanie xlsx do dnia obecnego, oraz wypełnienie dni po kolei
 #   /jesli oststnia zakladka jest starsza niż z dnia dzisiejszego iterowac przez skrypt dla poszczegolnych dni
+# - poprawić ostatnią część skryptu 
 
 
 print('Generowania raportu DPR.\n\tver2.0.beta')
@@ -372,6 +373,8 @@ wb.save(raport)
 print('\nRaport DPR gotowy\n'
       '\nPrzystępuję do zrobienia raportu dziennego "dniówki"')
 
+# Tak wiem, że następna część kodu nie jest zbyt Pythonowa;-)
+# jak narazie działa, co nie znaczy, że tego nie poprawię.
 # raprt dniówkowy punkt po punkcie importowany ze skryptu
 import raport_daily
 
