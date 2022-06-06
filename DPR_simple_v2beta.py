@@ -3,7 +3,7 @@ import openpyxl
 from datetime import date, timedelta
 from time import sleep
 import kury
-import initial_data
+import init
 
 # do zrobienia:
 # - rozpoznie ostatniego dnia w raporcie i przygotowanie xlsx do dnia obecnego, oraz wypełnienie dni po kolei
@@ -17,7 +17,7 @@ print(f"-dane z dnia: {str(date.today().strftime('%Y%m%d'))}")
 sleep(2)
 # łączenie z bazą
 conn_str = (r'DRIVER={Microsoft Access Driver (*.mdb, *.accdb)};'  # sterownik mdb
-            fr'DBQ={initial_data.MDB};')  # ścieżka do bazy danych
+            fr'DBQ={init.MDB};')  # ścieżka do bazy danych
 
 cnxn = pyodbc.connect(conn_str)  # łączenie z bazą danych
 crsr = cnxn.cursor()
@@ -47,7 +47,7 @@ cnxn.close()
 # Przygotowanie pliku Excell
 print('Otwieram DPR\n')
 
-wb = openpyxl.load_workbook(initial_data.DPR)
+wb = openpyxl.load_workbook(init.DPR)
 
 print('-Tworzę nową zakładkę')
 source = wb[wb.sheetnames[-2]]
@@ -234,7 +234,7 @@ target['N132'] = len(set(licz_bry))
 target['B128'] = input('\nWprowadź komentarz:\n')
 
 print('\nZapisuję plik')
-wb.save(initial_data.DPR)
+wb.save(init.DPR)
 sleep(1)
 
 
