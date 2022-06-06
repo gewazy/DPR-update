@@ -1,11 +1,12 @@
 # DPR-update
 
-Skrypt wypełnia raport dzienny DPR. 
+Skrypt do wypełniania raportu dzinnego DPR. 
 
-Tworzy pliki:
+Dodatkowe funkcje:
 - json dla transcribera.
 - csv do GPSa, txt do ZUPTa z punktami do domierzenia (QC, status po produkcji)
+- i więcej
+
 ##
-Skrypt uruchamiamy po wykonaniu wszystkich czynności w bazie danych. 
-Rozpoznaje czy punkty były zmienione, czy domierzone(niwelowane)
+
 
